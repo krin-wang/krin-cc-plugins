@@ -1,4 +1,4 @@
-const Database = require("better-sqlite3");
+const initSqlJs = require("sql.js");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
@@ -7,19 +7,85 @@ const LEARNER_DIR = path.join(os.homedir(), ".claude-learner");
 const LEARNER_DB_PATH = path.join(LEARNER_DIR, "learner.db");
 const CLAUDE_MEM_DB_PATH = path.join(os.homedir(), ".claude-mem", "claude-mem.db");
 
+let _SQL = null;
+
+function getSqlJs() {
+  if (!_SQL) {
+    _SQL = initSqlJs();
+  }
+  return _SQL;
+}
+
+function wrapDb(db, filePath) {
+  return {
+    prepare(sql) {
+      return {
+        run(...params) {
+          db.run(sql, params);
+          const result = { changes: db.getRowsModified() };
+          if (filePath) saveDb(db, filePath);
+          return result;
+        },
+        get(...params) {
+          const stmt = db.prepare(sql);
+          stmt.bind(params);
+          if (stmt.step()) {
+            const row = stmt.getAsObject();
+            stmt.free();
+            return row;
+          }
+          stmt.free();
+          return undefined;
+        },
+        all(...params) {
+          const rows = [];
+          const stmt = db.prepare(sql);
+          stmt.bind(params);
+          while (stmt.step()) {
+            rows.push(stmt.getAsObject());
+          }
+          stmt.free();
+          return rows;
+        },
+      };
+    },
+    exec(sql) {
+      db.exec(sql);
+      if (filePath) saveDb(db, filePath);
+    },
+    close() {
+      if (filePath) saveDb(db, filePath);
+      db.close();
+    },
+    _raw: db,
+    _path: filePath,
+  };
+}
+
+function saveDb(db, filePath) {
+  const data = db.export();
+  fs.writeFileSync(filePath, Buffer.from(data));
+}
+
 function ensureLearnerDir() {
   if (!fs.existsSync(LEARNER_DIR)) {
     fs.mkdirSync(LEARNER_DIR, { recursive: true });
   }
 }
 
-function openLearnerDb() {
+async function openLearnerDb() {
   ensureLearnerDir();
-  const db = new Database(LEARNER_DB_PATH);
-  db.pragma("journal_mode = WAL");
-  db.pragma("synchronous = NORMAL");
-  initLearnerSchema(db);
-  return db;
+  const SQL = await getSqlJs();
+  let db;
+  if (fs.existsSync(LEARNER_DB_PATH)) {
+    const buf = fs.readFileSync(LEARNER_DB_PATH);
+    db = new SQL.Database(buf);
+  } else {
+    db = new SQL.Database();
+  }
+  const wrapped = wrapDb(db, LEARNER_DB_PATH);
+  initLearnerSchema(wrapped);
+  return wrapped;
 }
 
 function initLearnerSchema(db) {
@@ -70,9 +136,12 @@ function requireClaudeMem() {
   }
 }
 
-function openClaudeMemDb() {
+async function openClaudeMemDb() {
   requireClaudeMem();
-  return new Database(CLAUDE_MEM_DB_PATH, { readonly: true });
+  const SQL = await getSqlJs();
+  const buf = fs.readFileSync(CLAUDE_MEM_DB_PATH);
+  const db = new SQL.Database(buf);
+  return wrapDb(db, null);
 }
 
 function getProjectName() {

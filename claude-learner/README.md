@@ -21,8 +21,8 @@ claude-mem captures observations → claude-learner mines patterns → rules wri
 In Claude Code:
 
 ```
-/plugin marketplace add krin-wang/krin-cc-plugins
-/plugin install claude-learner@krin-cc-plugins
+/plugin marketplace add krin-wang/cc-plugins
+/plugin install claude-learner@cc-plugins
 ```
 
 ## Usage

@@ -25,8 +25,8 @@ const prune = flags.prune === true;
 const stats = flags.stats === true;
 const writeClaude = flags["write-claude-md"];
 
-function main() {
-  const learnerDb = openLearnerDb();
+async function main() {
+  const learnerDb = await openLearnerDb();
 
   if (list) return doList(learnerDb, flags.status || "active");
   if (listCandidates) return doList(learnerDb, "candidate");
@@ -38,12 +38,12 @@ function main() {
   if (stats) return doStats(learnerDb);
   if (writeClaude) return doWriteClaudeMd(learnerDb, writeClaude === true ? null : writeClaude);
 
-  doMine(learnerDb, incremental);
+  await doMine(learnerDb, incremental);
   learnerDb.close();
 }
 
-function doMine(learnerDb, incremental) {
-  const memDb = openClaudeMemDb();
+async function doMine(learnerDb, incremental) {
+  const memDb = await openClaudeMemDb();
 
   let sinceEpoch = 0;
   if (incremental) {

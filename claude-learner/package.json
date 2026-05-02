@@ -4,6 +4,6 @@
   "private": true,
   "description": "Learning layer plugin for Claude Code — mines claude-mem observations, generates rules, injects them into sessions",
   "dependencies": {
-    "better-sqlite3": "^11.0.0"
+    "sql.js": "^1.14.1"
   }
 }

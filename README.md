@@ -1,4 +1,4 @@
-# krin-cc-plugins
+# cc-plugins
 
 Personal Claude Code plugins and skills.
 
@@ -13,8 +13,8 @@ Personal Claude Code plugins and skills.
 In Claude Code, add the marketplace then install the plugin:
 
 ```
-/plugin marketplace add krin-wang/krin-cc-plugins
-/plugin install claude-learner@krin-cc-plugins
+/plugin marketplace add krin-wang/cc-plugins
+/plugin install claude-learner@cc-plugins
 ```
 
 Or use `/plugin` to browse available plugins interactively.
@@ -24,7 +24,7 @@ Or use `/plugin` to browse available plugins interactively.
 For local development, load a plugin directly:
 
 ```bash
-claude --plugin-dir /path/to/krin-cc-plugins/<plugin-name>
+claude --plugin-dir /path/to/cc-plugins/<plugin-name>
 ```
 
 Use `/reload-plugins` inside a session to pick up changes.
