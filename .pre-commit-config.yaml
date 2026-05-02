@@ -1,0 +1,31 @@
+repos:
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+
+  # Conventional commit messages
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  # JS/TS linting
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.27.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx|ts|tsx|mjs|cjs)$
+        types: [file]
+        args: [--no-warn-ignored]
+        additional_dependencies:
+          - eslint@9.27.0
+          - "@eslint/js@9.27.0"
+          - typescript-eslint@8.32.1
+          - globals@16.1.0

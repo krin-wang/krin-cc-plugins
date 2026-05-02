@@ -207,7 +207,7 @@ function mineLearned(memDb, sinceEpoch) {
   for (const row of rows) {
     const bullets = row.learned
       .split(/\n/)
-      .map((l) => l.replace(/^[\s\-\*]+/, "").trim())
+      .map((l) => l.replace(/^[\s\-*]+/, "").trim())
       .filter((l) => l.length > 15);
 
     for (const bullet of bullets) {
@@ -425,7 +425,7 @@ function parseFacts(factsStr) {
   if (Array.isArray(parsed)) return parsed;
   return factsStr
     .split(/\n/)
-    .map((l) => l.replace(/^[\s\-\*]+/, "").trim())
+    .map((l) => l.replace(/^[\s\-*]+/, "").trim())
     .filter(Boolean);
 }
 
