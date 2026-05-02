@@ -1,0 +1,9 @@
+{
+  "name": "claude-learner",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Learning layer plugin for Claude Code — mines claude-mem observations, generates rules, injects them into sessions",
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  }
+}

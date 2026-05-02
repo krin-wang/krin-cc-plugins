@@ -1,0 +1,10 @@
+{
+  "name": "claude-learner",
+  "version": "0.1.0",
+  "description": "Learning layer that mines claude-mem observations for patterns and writes learned rules to CLAUDE.md. Requires claude-mem plugin (thedotmack/claude-mem).",
+  "author": {
+    "name": "krin-wang"
+  },
+  "license": "MIT",
+  "keywords": ["learning", "memory", "rules", "self-improvement"]
+}
