@@ -8,6 +8,8 @@ repos:
       - id: check-json
       - id: check-yaml
       - id: check-merge-conflict
+      - id: no-commit-to-branch
+        args: [--branch, main]
 
   # Conventional commit messages
   - repo: https://github.com/compilerla/conventional-pre-commit
