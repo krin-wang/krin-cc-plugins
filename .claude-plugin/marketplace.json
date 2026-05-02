@@ -1,0 +1,16 @@
+{
+  "name": "krin-cc-plugins",
+  "description": "Personal Claude Code plugins and skills",
+  "owner": {
+    "name": "krin-wang",
+    "url": "https://github.com/krin-wang"
+  },
+  "plugins": [
+    {
+      "name": "claude-learner",
+      "description": "Mines claude-mem observations for patterns and writes learned rules to CLAUDE.md. Requires claude-mem plugin.",
+      "version": "0.1.0",
+      "source": "./claude-learner"
+    }
+  ]
+}

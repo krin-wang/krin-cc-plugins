@@ -18,15 +18,11 @@ claude-mem captures observations → claude-learner mines patterns → rules wri
 
 ## Install
 
-```bash
-# 1. Clone the plugin
-git clone https://github.com/krin-wang/claude-learner.git
+In Claude Code:
 
-# 2. Install dependencies
-cd claude-learner && npm install
-
-# 3. Register as a local plugin in Claude Code
-/install-local /path/to/claude-learner
+```
+/plugin marketplace add krin-wang/krin-cc-plugins
+/plugin install claude-learner@krin-cc-plugins
 ```
 
 ## Usage
